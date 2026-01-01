@@ -42,7 +42,7 @@ resource "google_storage_bucket" "audio_upload" {
     storage_class               = "STANDARD"
     uniform_bucket_level_access = true
     force_destroy               = false
-    lifecyle_rule {
+    lifecycle_rule {
         action {
             type = "Delete"
         }
@@ -59,7 +59,7 @@ resource "google_storage_bucket" "audio_processed" {
     storage_class               = "STANDARD"
     uniform_bucket_level_access = true
     force_destroy               = false
-    lifecyle_rule {
+    lifecycle_rule {
         action {
             type = "Delete"
         }
