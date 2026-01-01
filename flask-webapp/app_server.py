@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "my_super_secret_key"
 app.config["MAX_CONTENT_LENGTH"] = 30 * 1000 * 1000 # 30 MB limit
 
-GCS_BUCKET_NAME_AUDIO_USER_UPLOADS = "audio-user-uploads"
+GCS_BUCKET_NAME_AUDIO_UPLOAD = "karaotone-prod-media-audio-upload"
 
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {"mp3", "wav", "flac", "m4a"}
@@ -24,10 +24,10 @@ def allowed_file(filename):
 
 def upload_blob(source_file_name, source_file):
     storage_client = storage.Client()
-    bucket = storage_client.bucket(GCS_BUCKET_NAME_AUDIO_USER_UPLOADS)
+    bucket = storage_client.bucket(GCS_BUCKET_NAME_AUDIO_UPLOAD)
     blob = bucket.blob(source_file_name)
     blob.upload_from_file(source_file, content_type=source_file.content_type)
-    print(f"File {source_file_name} uploaded to {GCS_BUCKET_NAME_AUDIO_USER_UPLOADS}.")
+    print(f"File {source_file_name} uploaded to {GCS_BUCKET_NAME_AUDIO_UPLOAD}.")
 
 
 @app.route("/")
