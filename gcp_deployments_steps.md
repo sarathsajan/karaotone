@@ -19,7 +19,7 @@
 The project consists of three main folders:
 
 - **webapp**: Flask web application serving users
-- **karaoke_gen**: Microservice for audio processing
+- **karaoke_generator**: Microservice for audio processing
 - **terraform-karaotone**: Infrastructure as Code (IaC) files and configurations
 
 ## CI/CD
