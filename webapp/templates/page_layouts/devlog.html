@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>seventh.wav</title>
+</head>
+
+<body>
+    <a href="/"><button>home</button></a>
+    <br>
+    <p><strong>2025-12-31</strong>
+        Last day of this year. I am planning to pivot from a karaoke game to kraoke generator tool. So as part of that I
+        have added a new route /audio_upload and /audio_download to upload an audio file and download the karaoke
+        version of it. Though right now its just a file upload and download functionality without any processing. The
+        actual audio processing will be added later.</p>
+    <br>
+    <p><strong>2025-11-29</strong>
+        I am planning on adding a /techstack route that will show all the major langages, libraries, frameworks, tools
+        and services that was used to build this webapp.</p>
+    <br>
+    <p><strong>2025-11-28</strong>
+        I had previously built a song guessing game in 2019 called ZeroSong. This was a project to learn web
+        development. Malayalam song quiz webapp made using Python and Flask framework. In this game you will listen to
+        the intro of a song and you have to guess which Malayalam song it is. The song will stop playing just before the
+        vocals come in. You can read all about that in its github repo.</p>
+    <a href="https://github.com/sarathsajan/zerosong/blob/master/templates/about.html">github repo link</a>
+    <br>
+    <p>Now the problem with such a game is legal and technical. Using a copyrighted song without permission is not
+        legal. So lets keep that aside and make a it a future me's problem. We will focus on the main technical problem.
+        Since this is a song guessing game we cannot play the song directly. We need to modify the song audio file in
+        such a way that so that the user can have some form of challenge to identify the song. So i thought of manual
+        downloading song from youtube and trimming down the audio such that the audio finishes once it reaches the
+        vocals. This was enjoyable for the first few songs then it felt repetitive and time consuming. So I stopped the
+        project with 50ish something songs in 2019.
+    </p>
+
+    <p>I always wanted to improve upon this project later with more automations and recently I stumbled upon Demucs
+        (https://github.com/facebookresearch/demucs) a deep learning model from facebook research to separate a
+        given song/audio into multiple stems (stems = vocal, piano, violin, drums, flute and more instruments). This
+        really blew my mind about how accurate it was at identifying and splitting up the song even in its default
+        state. So I started digging deeper into this rabbit hole and found a website (mvsep.com) that would allow you to
+        upload an audio file and they will use the fined-tuned Demucs model to separate the song into multiple stems.
+        This refined mode was even better. But the quality was nothing compared to another refined model that I came
+        across on the same site: BS-RoFormer.</p>
+    <p>BS-RoFormer stands for Band-Split Rotary Position Embedding Transformer built by ByteDance AI Labs. You can
+        read the white paper here (https://arxiv.org/abs/2309.02612). As of 2025 this is the state-of-the-art model for
+        audio separation and mixing. Time to use this high-tech lightsaber to cut my humble pie.</p>
+</body>
+
+</html>
