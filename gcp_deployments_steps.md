@@ -1,3 +1,12 @@
+## Development Setup
+
+The project consists of three main folders:
+
+- **flask-webapp**: Flask web application serving users
+- **karaoke-generator**: Microservice for audio processing
+- **terraform-karaotone**: Infrastructure as Code (IaC) files and configurations
+
+
 ## Repository Setup
 
 1. **Create a Git repository on GitHub:**
@@ -14,16 +23,13 @@
 
 5. **Create or add files and directories as needed.**
 
-## Development Setup
 
-The project consists of three main folders:
-
-- **webapp**: Flask web application serving users
-- **karaoke_generator**: Microservice for audio processing
-- **terraform-karaotone**: Infrastructure as Code (IaC) files and configurations
-
-## CI/CD
+## CI/CD Setup
 
 - **Remote repository:** [GitHub](https://github.com)
 - **Cloud provider:** [Google Cloud Platform](https://cloud.google.com)
 - **Infrastructure as Code (IaC):** [Terraform](https://developer.hashicorp.com/terraform)
+
+1. intitialise the terraform tools terraform init
+2. do the plan terraform plan
+3. appply the plan terraform apply
