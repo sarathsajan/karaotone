@@ -73,6 +73,10 @@ resource "google_storage_bucket" "audio_processed" {
 resource "google_cloud_run_v2_service" "webapp" {
     name        = "karaotone-webapp"
     location    = "us-central1"
+    scaling {
+          manual_instance_count = 0
+          min_instance_count    = 0
+        }
     template {
         scaling {
             min_instance_count  = 0
