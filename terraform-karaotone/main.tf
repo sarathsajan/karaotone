@@ -68,3 +68,26 @@ resource "google_storage_bucket" "audio_processed" {
         }
     }
 }
+
+# 7. Cloud Run Service
+resource "google_cloud_run_v2_service" "webapp" {
+    name        = "karaotone-webapp"
+    location    = "us-central1"
+    template {
+        containers {
+            # this points to the image available in artifact registry
+            image = "us-central1.docker.pkg.dev/${var.project_id}/karaotone-images/karaotone-web:v0.0.1"
+            ports {
+                container_port = 8080
+            }
+        }
+    }
+}
+
+# 8. Make the webapp publically accessible
+resource "google_cloud_run_v2_service_iam_member" "webapp_public_access" {
+    name        = google_cloud_run_v2_service.webapp.name
+    location    = google_cloud_run_v2_service.webapp.location
+    role        = "roles/run.invoker"
+    member      = "allUsers"
+}
