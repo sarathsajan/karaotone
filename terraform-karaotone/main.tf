@@ -1,4 +1,4 @@
-# 1. Terraform Settings
+# Terraform Settings
 terraform {
     required_providers {
         google = {
@@ -8,13 +8,13 @@ terraform {
     }
 }
 
-# 2. Provider Configuration
+# Provider Configuration
 provider "google" {
     project = "karaotone-prod"
     region = "us-central1"
 }
 
-# 3. Enable Required Resources
+# Enable Required Resources
 resource "google_project_service" "enabled_apis" {
     for_each = toset([
         "cloudbuild.googleapis.com",
@@ -25,7 +25,7 @@ resource "google_project_service" "enabled_apis" {
     disable_on_destroy  = false
 }
 
-# 4. Artifact Registry
+# Artifact Registry
 resource "google_artifact_registry_repository" "karaotone_docker_repo" {
     location        = "us-central1"
     repository_id   = "karaotone-images"
@@ -35,7 +35,7 @@ resource "google_artifact_registry_repository" "karaotone_docker_repo" {
     depends_on = [google_project_service.enabled_apis]
 }
 
-# 5. Cloud Storage Bucket
+# Cloud Storage Bucket
 resource "google_storage_bucket" "audio_upload" {
     name                        = "karaotone-prod-media-audio-upload"
     location                    = "us-central1"
@@ -52,7 +52,7 @@ resource "google_storage_bucket" "audio_upload" {
     }
 }
 
-# 6. Cloud Storage Bucket
+# Cloud Storage Bucket
 resource "google_storage_bucket" "audio_processed" {
     name                        = "karaotone-prod-media-audio-processed"
     location                    = "us-central1"
@@ -69,7 +69,7 @@ resource "google_storage_bucket" "audio_processed" {
     }
 }
 
-# 7. Cloud Run Service
+# Cloud Run Service
 resource "google_cloud_run_v2_service" "webapp" {
     name        = "karaotone-webapp"
     location    = "us-central1"
@@ -84,10 +84,17 @@ resource "google_cloud_run_v2_service" "webapp" {
     }
 }
 
-# 8. Make the webapp publically accessible
+# Make the webapp publically accessible
 resource "google_cloud_run_v2_service_iam_member" "webapp_public_access" {
     name        = google_cloud_run_v2_service.webapp.name
     location    = google_cloud_run_v2_service.webapp.location
     role        = "roles/run.invoker"
     member      = "allUsers"
+}
+
+# Make the audio buckets publically accessible
+resource "google_storage_bucket_iam_member" "audio_upload_public_access" {
+    bucket  = google_storage_bucket.audio_upload.name
+    role    = "roles/storage.objectViewer"
+    member  = "allUsers"
 }
