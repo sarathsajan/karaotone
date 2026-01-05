@@ -74,6 +74,10 @@ resource "google_cloud_run_v2_service" "webapp" {
     name        = "karaotone-webapp"
     location    = "us-central1"
     template {
+        scaling {
+            min_instance_count  = 0
+            manual_instance_count = 0
+        }
         containers {
             # this points to the image available in artifact registry
             image = "us-central1-docker.pkg.dev/${var.project_id}/karaotone-images/karaotone-web:v0.0.1"
