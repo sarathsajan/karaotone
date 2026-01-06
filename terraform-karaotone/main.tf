@@ -83,7 +83,7 @@ resource "google_cloud_run_v2_service" "webapp" {
         }
         containers {
             # this points to the image available in artifact registry
-            image = "us-central1-docker.pkg.dev/${var.project_id}/karaotone-images/karaotone-web:v0.0.3"
+            image = "us-central1-docker.pkg.dev/${var.project_id}/karaotone-images/karaotone-web:v0.0.4"
             ports {
                 container_port = 8080
             }

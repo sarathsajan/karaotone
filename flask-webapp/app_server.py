@@ -29,7 +29,7 @@ def allowed_file(filename):
 
 
 def upload_blob(source_file_name, source_file):
-    storage_client = storage.Client(project=PROJECT_ID)
+    storage_client = storage.Client()
     bucket = storage_client.bucket(GCS_BUCKET_NAME_AUDIO_UPLOAD)
     blob = bucket.blob(source_file_name)
     blob.upload_from_file(source_file, content_type=source_file.content_type)
@@ -39,7 +39,7 @@ def upload_blob(source_file_name, source_file):
 
 def publish_to_pubsub_topic(filename):
     # Implementation for publishing to Pub/Sub topic
-    publisher = pubsub_v1.PublisherClient(project=PROJECT_ID)
+    publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(PROJECT_ID, PUBSUB_TOPIC_ID)
     message_json = json.dumps({"filename": filename}).encode()
     try:
