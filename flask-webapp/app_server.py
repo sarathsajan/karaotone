@@ -16,7 +16,7 @@ app.config["MAX_CONTENT_LENGTH"] = 30 * 1000 * 1000  # 30 MB limit
 
 PROJECT_ID = "karaotone-prod"
 GCS_BUCKET_NAME_AUDIO_UPLOAD = "karaotone-prod-media-audio-upload"
-PUBSUB_TOPIC_ID = "audio-processing-requests"
+PUBSUB_TOPIC_ID = "audio-processing-requests-topic"
 
 
 def allowed_file(filename):
@@ -44,7 +44,7 @@ def publish_to_pubsub_topic(filename):
     message_json = json.dumps({"filename": filename}).encode()
     try:
         future = publisher.publish(topic_path, data=message_json)
-        future.result(timeout=10)   # Verify the publish succeeded
+        future.result(timeout=10)  # Verify the publish succeeded
         print(f"Published message to {PUBSUB_TOPIC_ID}: {filename}")
         flash("file sent for processing")
     except Exception as e:
@@ -94,13 +94,23 @@ def audio_upload():
                 flash("file type not allowed")
                 return redirect(request.url)
             if allowed_file(file.filename):
-                candidate_safe_filename = (datetime.now().strftime("%Y%m%d%H%M%S%f")+ "_"+ secure_filename(file.filename))
+                candidate_safe_filename = (
+                    datetime.now().strftime("%Y%m%d%H%M%S%f")
+                    + "_"
+                    + secure_filename(file.filename)
+                )
                 upload_blob(candidate_safe_filename, file)
                 publish_to_pubsub_topic(candidate_safe_filename)
-                return redirect(url_for("audio_processed", filename=candidate_safe_filename))
+                return redirect(
+                    url_for("audio_processed", filename=candidate_safe_filename)
+                )
     return render_template("page_layouts/audio_upload.html")
 
 
 @app.route("/audio_processed/<filename>")
 def audio_processed(filename):
-    return render_template("page_layouts/audio_processed.html", filename="processed_" + filename)
+    return render_template(
+        "page_layouts/audio_processed.html",
+        candidate_filename=filename,
+        processed_filename="processed_" + filename.rsplit(".", 1)[0] + ".mp3",
+    )
