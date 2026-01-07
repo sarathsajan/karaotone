@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Karaotone</title>
+</head>
+
+<body>
+    <a href="/"><button>home</button></a>
+    <h1>Your karaoke is ready!</h1>
+    <p>file name: {{ filename }}</p>
+    <p>Download link: </p><a href="https://storage.googleapis.com/karaotone-prod-media-audio-processed/{{ filename }}"
+        download>Download audio</a>
+    <audio controls>
+        <source src="https://storage.googleapis.com/karaotone-prod-media-audio-processed/{{ filename }}"
+            type="audio/mpeg">
+        Cannot preview the file as your browser does not support the html audio element.
+        <p>If the above link doesn't work, try downloading the file directly from the below URL.</p>
+        <p>https://storage.googleapis.com/karaotone-prod-media-audio-processed/{{ filename }}</p>
+    </audio>
+</body>
+
+</html>

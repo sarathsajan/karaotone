@@ -94,14 +94,13 @@ def audio_upload():
                 flash("file type not allowed")
                 return redirect(request.url)
             if allowed_file(file.filename):
-                safe_filename = (datetime.now().strftime("%Y%m%d%H%M%S%f")+ "_"+ secure_filename(file.filename))
-                processed_safe_filename = "processed_" + safe_filename
-                upload_blob(safe_filename, file)
-                publish_to_pubsub_topic(safe_filename)
-                return redirect(url_for("audio_download", filename=processed_safe_filename))
+                candidate_safe_filename = (datetime.now().strftime("%Y%m%d%H%M%S%f")+ "_"+ secure_filename(file.filename))
+                upload_blob(candidate_safe_filename, file)
+                publish_to_pubsub_topic(candidate_safe_filename)
+                return redirect(url_for("audio_processed", filename=candidate_safe_filename))
     return render_template("page_layouts/audio_upload.html")
 
 
-@app.route("/audio_download/<filename>")
-def audio_download(filename):
-    return render_template("page_layouts/audio_download.html", filename=filename)
+@app.route("/audio_processed/<filename>")
+def audio_processed(filename):
+    return render_template("page_layouts/audio_processed.html", filename="processed_" + filename)
